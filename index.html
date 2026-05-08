@@ -3,21 +3,21 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Caza un Millón</title>
+    <title>Atrapa la pasta</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <main class="app-shell" id="app">
-      <section class="loading-screen" id="loadingScreen">
+      <section class="start-screen" id="startScreen">
         <div class="brand-card">
           <p class="eyebrow">Concurso familiar</p>
-          <h1>Caza un Millón</h1>
-          <p id="loadingMessage">Cargando preguntas...</p>
-          <label class="file-loader" for="jsonInput">
-            Cargar preguntas JSON
-            <input id="jsonInput" type="file" accept="application/json,.json">
-          </label>
-          <button class="ghost-button" id="useDemoButton" type="button">Usar preguntas de ejemplo</button>
+          <h1>Atrapa la pasta</h1>
+          <div class="start-hero">
+            <img src="portada.png" alt="Portada de Atrapa la pasta">
+          </div>
+          <p id="startMessage">Preparando preguntas...</p>
+          <button class="start-button" id="startButton" type="button" disabled>Comenzar</button>
         </div>
       </section>
 
@@ -28,7 +28,7 @@
               <p class="eyebrow" id="roundLevel">Ronda</p>
               <p class="difficulty-badge" id="difficultyBadge">Nivel</p>
             </div>
-            <h1 id="roundTitle">Caza un Millón</h1>
+            <h1 id="roundTitle">Atrapa la pasta</h1>
           </div>
           <div class="timer-card" id="timerCard">
             <span class="timer-label" id="timerLabel">Preparado</span>

@@ -1,32 +1,10 @@
 const ROUND_SECONDS = 120;
 const LETTERS = ["A", "B", "C", "D"];
 
-const demoQuestions = {
-  rondas: [
-    {
-      tipo: "normal",
-      tema: "Matemáticas",
-      pregunta: "¿Cuánto es 7 x 8?",
-      opciones: ["54", "56", "64", "48"],
-      correcta: 1,
-      pista: "Es el resultado de sumar 7 ocho veces."
-    },
-    {
-      tipo: "normal",
-      tema: "Animales",
-      pregunta: "¿Qué animal es conocido como el rey de la selva?",
-      opciones: ["Tigre", "León", "Elefante", "Gorila"],
-      correcta: 1,
-      pista: "Tiene melena y ruge muy fuerte."
-    }
-  ]
-};
-
 const dom = {
-  loadingScreen: document.querySelector("#loadingScreen"),
-  loadingMessage: document.querySelector("#loadingMessage"),
-  jsonInput: document.querySelector("#jsonInput"),
-  useDemoButton: document.querySelector("#useDemoButton"),
+  startScreen: document.querySelector("#startScreen"),
+  startMessage: document.querySelector("#startMessage"),
+  startButton: document.querySelector("#startButton"),
   gameScreen: document.querySelector("#gameScreen"),
   roundLevel: document.querySelector("#roundLevel"),
   difficultyBadge: document.querySelector("#difficultyBadge"),
@@ -53,6 +31,7 @@ const dom = {
 
 const state = {
   rounds: [],
+  pendingQuestions: null,
   roundIndex: 0,
   currentQuestion: null,
   phase: "loading",
@@ -103,16 +82,17 @@ async function init() {
       throw new Error("No se pudo cargar preguntas.json");
     }
     const data = await response.json();
-    startGame(data);
+    validateQuestions(data);
+    state.pendingQuestions = data;
+    dom.startMessage.textContent = "Todo listo para empezar.";
+    dom.startButton.disabled = false;
   } catch (error) {
-    dom.loadingMessage.textContent =
-      "Tu navegador ha bloqueado la carga automática. Selecciona preguntas.json o usa el ejemplo.";
+    dom.startMessage.textContent = "No se ha podido cargar preguntas.json.";
   }
 }
 
 function bindEvents() {
-  dom.jsonInput.addEventListener("change", loadJsonFromFile);
-  dom.useDemoButton.addEventListener("click", () => startGame(demoQuestions));
+  dom.startButton.addEventListener("click", startPreparedGame);
   dom.advanceButton.addEventListener("click", advance);
   dom.timerButton.addEventListener("click", toggleTimer);
   dom.finishButton.addEventListener("click", finishDeliberation);
@@ -127,29 +107,19 @@ function bindEvents() {
   document.addEventListener("keydown", ensureAudio, { once: true });
 }
 
-function loadJsonFromFile(event) {
-  const [file] = event.target.files;
-  if (!file) {
+function startPreparedGame() {
+  if (!state.pendingQuestions) {
     return;
   }
 
-  const reader = new FileReader();
-  reader.addEventListener("load", () => {
-    try {
-      startGame(JSON.parse(String(reader.result)));
-    } catch (error) {
-      dom.loadingMessage.textContent = "El archivo no es un JSON válido.";
-    }
-  });
-  reader.readAsText(file);
+  startGame(state.pendingQuestions);
 }
 
 function startGame(data) {
-  validateQuestions(data);
   state.rounds = data.rondas;
   state.roundIndex = 0;
   state.lifelinesUsed = { fifty: false, call: false, hint: false };
-  dom.loadingScreen.classList.add("is-hidden");
+  dom.startScreen.classList.add("is-hidden");
   dom.gameScreen.classList.remove("is-hidden");
   setupRound();
 }
@@ -405,7 +375,7 @@ function nextRound() {
     dom.roundLevel.textContent = "Final";
     dom.roundTitle.textContent = "Partida terminada";
     dom.phaseLabel.textContent = "Enhorabuena";
-    dom.questionText.textContent = "Habéis llegado al final de Caza un Millón.";
+    dom.questionText.textContent = "Habéis llegado al final de Atrapa la pasta.";
     dom.optionsGrid.innerHTML = "";
     dom.themeChoice.classList.add("is-hidden");
     setStatus("Fin de la partida.");
