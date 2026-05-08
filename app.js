@@ -29,6 +29,7 @@ const dom = {
   useDemoButton: document.querySelector("#useDemoButton"),
   gameScreen: document.querySelector("#gameScreen"),
   roundLevel: document.querySelector("#roundLevel"),
+  difficultyBadge: document.querySelector("#difficultyBadge"),
   roundTitle: document.querySelector("#roundTitle"),
   timerCard: document.querySelector("#timerCard"),
   timerLabel: document.querySelector("#timerLabel"),
@@ -72,6 +73,26 @@ const state = {
   audioContext: null,
   tensionNodes: null
 };
+
+function getDifficulty(round, roundIndex, question = null) {
+  if (question?.dificultad) {
+    return question.dificultad;
+  }
+
+  if (round?.dificultad) {
+    return round.dificultad;
+  }
+
+  if (roundIndex < 5) {
+    return "Fácil";
+  }
+
+  if (roundIndex < 10) {
+    return "Medio";
+  }
+
+  return "Difícil";
+}
 
 async function init() {
   bindEvents();
@@ -178,6 +199,7 @@ function setupRound() {
   dom.optionsGrid.innerHTML = "";
 
   dom.roundLevel.textContent = `Ronda ${state.roundIndex + 1} de ${state.rounds.length}`;
+  dom.difficultyBadge.textContent = `Nivel ${getDifficulty(round, state.roundIndex)}`;
   dom.roundTitle.textContent = round.tipo === "eleccion" ? "Elegid temática" : round.tema;
   dom.phaseLabel.textContent = "Preparando ronda";
   dom.questionText.textContent =
@@ -213,6 +235,7 @@ function selectTheme(question) {
   state.currentQuestion = question;
   state.phase = "setup";
   dom.themeChoice.classList.add("is-hidden");
+  dom.difficultyBadge.textContent = `Nivel ${getDifficulty(state.rounds[state.roundIndex], state.roundIndex, question)}`;
   dom.roundTitle.textContent = question.tema;
   dom.questionText.textContent = "Pulsa avanzar para mostrar las respuestas.";
   renderOptions(question);
@@ -229,8 +252,13 @@ function renderOptions(question) {
     card.type = "button";
     card.dataset.index = String(index);
     card.innerHTML = `
-      <span class="option-letter">${LETTERS[index]}</span>
-      <span class="option-text">${escapeHtml(option)}</span>
+      <span class="option-face option-front">
+        <span class="option-letter">${LETTERS[index]}</span>
+        <span class="option-text">${escapeHtml(option)}</span>
+      </span>
+      <span class="option-face option-back" aria-hidden="true">
+        <span>${LETTERS[index]}</span>
+      </span>
     `;
     card.addEventListener("click", () => revealOption(index));
     dom.optionsGrid.append(card);
