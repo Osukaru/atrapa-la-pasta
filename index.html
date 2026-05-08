@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Caza un Millón</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell" id="app">
+      <section class="loading-screen" id="loadingScreen">
+        <div class="brand-card">
+          <p class="eyebrow">Concurso familiar</p>
+          <h1>Caza un Millón</h1>
+          <p id="loadingMessage">Cargando preguntas...</p>
+          <label class="file-loader" for="jsonInput">
+            Cargar preguntas JSON
+            <input id="jsonInput" type="file" accept="application/json,.json">
+          </label>
+          <button class="ghost-button" id="useDemoButton" type="button">Usar preguntas de ejemplo</button>
+        </div>
+      </section>
+
+      <section class="game-screen is-hidden" id="gameScreen" aria-live="polite">
+        <header class="top-bar">
+          <div>
+            <p class="eyebrow" id="roundLevel">Ronda</p>
+            <h1 id="roundTitle">Caza un Millón</h1>
+          </div>
+          <div class="timer-card" id="timerCard">
+            <span class="timer-label" id="timerLabel">Preparado</span>
+            <strong id="timer">02:00</strong>
+          </div>
+        </header>
+
+        <section class="stage">
+          <div class="theme-choice is-hidden" id="themeChoice"></div>
+          <div class="question-card">
+            <p class="phase-label" id="phaseLabel">Preparando ronda</p>
+            <h2 id="questionText">Pulsa avanzar para empezar.</h2>
+            <p class="hint-box is-hidden" id="hintBox"></p>
+          </div>
+          <div class="options-grid" id="optionsGrid"></div>
+        </section>
+
+        <aside class="side-panel">
+          <div class="lifelines">
+            <h2>Comodines</h2>
+            <button class="lifeline" id="lifelineFifty" data-lifeline="fifty" type="button">
+              <span>50%</span>
+              <small>Elimina dos falsas</small>
+            </button>
+            <button class="lifeline" id="lifelineCall" data-lifeline="call" type="button">
+              <span>Llamada</span>
+              <small>Pausa el tiempo</small>
+            </button>
+            <button class="lifeline" id="lifelineHint" data-lifeline="hint" type="button">
+              <span>Pista</span>
+              <small>Muestra una ayuda</small>
+            </button>
+          </div>
+
+          <div class="controls">
+            <h2>Controles</h2>
+            <button id="advanceButton" type="button">Avanzar</button>
+            <button id="timerButton" type="button">Iniciar tiempo</button>
+            <button id="finishButton" type="button">Finalizar deliberación</button>
+            <button id="nextRoundButton" type="button">Siguiente ronda</button>
+          </div>
+
+          <div class="shortcuts">
+            <h2>Teclado</h2>
+            <p><kbd>Espacio</kbd> avanzar</p>
+            <p><kbd>T</kbd> tiempo</p>
+            <p><kbd>F</kbd> finalizar</p>
+            <p><kbd>1</kbd>-<kbd>4</kbd> revelar</p>
+            <p><kbd>N</kbd> siguiente</p>
+          </div>
+        </aside>
+
+        <footer class="status-line" id="statusLine">Listo para empezar.</footer>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>

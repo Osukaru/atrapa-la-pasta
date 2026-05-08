@@ -1,0 +1,157 @@
+{
+  "rondas": [
+    {
+      "tipo": "normal",
+      "tema": "Matemáticas",
+      "pregunta": "¿Cuánto es 7 x 8?",
+      "opciones": ["54", "56", "64", "48"],
+      "correcta": 1,
+      "pista": "Es el resultado de sumar 7 ocho veces."
+    },
+    {
+      "tipo": "normal",
+      "tema": "Animales",
+      "pregunta": "¿Qué animal es conocido como el rey de la selva?",
+      "opciones": ["Tigre", "León", "Elefante", "Gorila"],
+      "correcta": 1,
+      "pista": "Tiene melena y ruge muy fuerte."
+    },
+    {
+      "tipo": "eleccion",
+      "temas": [
+        {
+          "tema": "Minecraft",
+          "pregunta": "¿Qué material se usa para construir un portal al Nether?",
+          "opciones": ["Hierro", "Obsidiana", "Diamante", "Arena"],
+          "correcta": 1,
+          "pista": "Es un bloque negro muy resistente."
+        },
+        {
+          "tema": "Fútbol",
+          "pregunta": "¿Cuánto dura un partido de fútbol profesional sin contar el descuento?",
+          "opciones": ["60 minutos", "80 minutos", "90 minutos", "120 minutos"],
+          "correcta": 2,
+          "pista": "Son dos partes iguales."
+        }
+      ]
+    },
+    {
+      "tipo": "normal",
+      "tema": "Cine",
+      "pregunta": "¿De qué color es principalmente el sable láser de Luke Skywalker en la primera película de Star Wars?",
+      "opciones": ["Rojo", "Azul", "Verde", "Morado"],
+      "correcta": 1,
+      "pista": "No es el color de los Sith."
+    },
+    {
+      "tipo": "normal",
+      "tema": "Geografía",
+      "pregunta": "¿Cuál es el río más largo del mundo según la clasificación más habitual?",
+      "opciones": ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
+      "correcta": 0,
+      "pista": "Cruza el noreste de África."
+    },
+    {
+      "tipo": "normal",
+      "tema": "Videojuegos",
+      "pregunta": "¿Cómo se llama el fontanero hermano de Luigi?",
+      "opciones": ["Wario", "Mario", "Yoshi", "Toad"],
+      "correcta": 1,
+      "pista": "Es el protagonista más famoso de Nintendo."
+    },
+    {
+      "tipo": "normal",
+      "tema": "Ciencia",
+      "pregunta": "¿Qué planeta del sistema solar es conocido como el planeta rojo?",
+      "opciones": ["Venus", "Júpiter", "Marte", "Mercurio"],
+      "correcta": 2,
+      "pista": "Su nombre coincide con el dios romano de la guerra."
+    },
+    {
+      "tipo": "eleccion",
+      "temas": [
+        {
+          "tema": "Dinosaurios",
+          "pregunta": "¿Cuál de estos dinosaurios tenía tres cuernos en la cabeza?",
+          "opciones": ["Velociraptor", "Triceratops", "Diplodocus", "Stegosaurus"],
+          "correcta": 1,
+          "pista": "Su nombre empieza por tri."
+        },
+        {
+          "tema": "Superhéroes",
+          "pregunta": "¿Cuál es el nombre real de Spider-Man?",
+          "opciones": ["Bruce Wayne", "Peter Parker", "Clark Kent", "Tony Stark"],
+          "correcta": 1,
+          "pista": "Trabaja como fotógrafo en muchas versiones."
+        }
+      ]
+    },
+    {
+      "tipo": "normal",
+      "tema": "Historia",
+      "pregunta": "¿En qué país se construyeron las pirámides de Giza?",
+      "opciones": ["México", "Egipto", "Perú", "Grecia"],
+      "correcta": 1,
+      "pista": "Están cerca del río Nilo."
+    },
+    {
+      "tipo": "normal",
+      "tema": "Música",
+      "pregunta": "¿Cuántas cuerdas tiene normalmente una guitarra española?",
+      "opciones": ["4", "5", "6", "7"],
+      "correcta": 2,
+      "pista": "Es un número par mayor que cinco."
+    },
+    {
+      "tipo": "normal",
+      "tema": "Naturaleza",
+      "pregunta": "¿Qué necesitan las plantas para hacer la fotosíntesis?",
+      "opciones": ["Luz", "Arena", "Plástico", "Metal"],
+      "correcta": 0,
+      "pista": "Viene del sol."
+    },
+    {
+      "tipo": "normal",
+      "tema": "Deportes",
+      "pregunta": "¿En qué deporte se usa una raqueta y una pelota amarilla?",
+      "opciones": ["Baloncesto", "Tenis", "Natación", "Rugby"],
+      "correcta": 1,
+      "pista": "Se juega en pista dividida por una red."
+    },
+    {
+      "tipo": "eleccion",
+      "temas": [
+        {
+          "tema": "Tecnología",
+          "pregunta": "¿Qué significa la sigla Wi-Fi en el uso cotidiano?",
+          "opciones": ["Conexión inalámbrica", "Cable rápido", "Pantalla táctil", "Batería externa"],
+          "correcta": 0,
+          "pista": "Sirve para conectarse a internet sin cable."
+        },
+        {
+          "tema": "Comida",
+          "pregunta": "¿Cuál es el ingrediente principal del guacamole?",
+          "opciones": ["Tomate", "Aguacate", "Patata", "Manzana"],
+          "correcta": 1,
+          "pista": "Es una fruta verde por dentro."
+        }
+      ]
+    },
+    {
+      "tipo": "normal",
+      "tema": "Literatura",
+      "pregunta": "¿Cómo se llama el mago protagonista de la saga creada por J. K. Rowling?",
+      "opciones": ["Harry Potter", "Percy Jackson", "Frodo Bolsón", "Peter Pan"],
+      "correcta": 0,
+      "pista": "Tiene una cicatriz con forma de rayo."
+    },
+    {
+      "tipo": "normal",
+      "tema": "Pregunta final",
+      "pregunta": "¿Cuál es el océano más grande de la Tierra?",
+      "opciones": ["Atlántico", "Índico", "Pacífico", "Ártico"],
+      "correcta": 2,
+      "pista": "Su nombre suena a tranquilidad."
+    }
+  ]
+}
