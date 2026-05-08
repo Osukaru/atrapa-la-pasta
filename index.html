@@ -30,59 +30,53 @@
             </div>
             <h1 id="roundTitle">Atrapa la pasta</h1>
           </div>
-          <div class="timer-card" id="timerCard">
-            <span class="timer-label" id="timerLabel">Preparado</span>
-            <strong id="timer">02:00</strong>
+          <div class="top-actions">
+            <div class="lifelines" aria-label="Comodines">
+              <button class="lifeline" id="lifelineFifty" data-lifeline="fifty" type="button" aria-label="Comodín 50%">
+                <span class="lifeline-icon lifeline-fifty">50%</span>
+              </button>
+              <button class="lifeline" id="lifelineCall" data-lifeline="call" type="button" aria-label="Comodín llamada">
+                <span class="lifeline-icon lifeline-phone" aria-hidden="true"></span>
+              </button>
+              <button class="lifeline" id="lifelineHint" data-lifeline="hint" type="button" aria-label="Comodín pista">
+                <span class="lifeline-icon lifeline-search" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="timer-card" id="timerCard">
+              <strong id="timer">02:00</strong>
+            </div>
           </div>
         </header>
 
-        <section class="stage">
+        <section class="stage" id="stage">
           <div class="theme-choice is-hidden" id="themeChoice"></div>
-          <div class="question-card">
-            <p class="phase-label" id="phaseLabel">Preparando ronda</p>
-            <h2 id="questionText">Pulsa avanzar para empezar.</h2>
-            <p class="hint-box is-hidden" id="hintBox"></p>
+          <div class="question-card" id="questionCard">
+            <p class="phase-label" id="phaseLabel">Pregunta</p>
+            <div class="question-flipper">
+              <div class="question-face question-front">
+                <h2 id="questionText"></h2>
+              </div>
+              <div class="question-face question-back" aria-hidden="true">
+                <span>?</span>
+              </div>
+            </div>
           </div>
           <div class="options-grid" id="optionsGrid"></div>
+          <button class="advance-zone" id="advanceZone" type="button" aria-label="Avanzar">
+            <span>Avanzar</span>
+            <span class="advance-timer-icon" aria-hidden="true"></span>
+          </button>
         </section>
 
-        <aside class="side-panel">
-          <div class="lifelines">
-            <h2>Comodines</h2>
-            <button class="lifeline" id="lifelineFifty" data-lifeline="fifty" type="button">
-              <span>50%</span>
-              <small>Elimina dos falsas</small>
-            </button>
-            <button class="lifeline" id="lifelineCall" data-lifeline="call" type="button">
-              <span>Llamada</span>
-              <small>Pausa el tiempo</small>
-            </button>
-            <button class="lifeline" id="lifelineHint" data-lifeline="hint" type="button">
-              <span>Pista</span>
-              <small>Muestra una ayuda</small>
-            </button>
-          </div>
-
-          <div class="controls">
-            <h2>Controles</h2>
-            <button id="advanceButton" type="button">Avanzar</button>
-            <button id="timerButton" type="button">Iniciar tiempo</button>
-            <button id="finishButton" type="button">Finalizar deliberación</button>
-            <button id="nextRoundButton" type="button">Siguiente ronda</button>
-          </div>
-
-          <div class="shortcuts">
-            <h2>Teclado</h2>
-            <p><kbd>Espacio</kbd> avanzar</p>
-            <p><kbd>T</kbd> tiempo</p>
-            <p><kbd>F</kbd> finalizar</p>
-            <p><kbd>1</kbd>-<kbd>4</kbd> revelar</p>
-            <p><kbd>N</kbd> siguiente</p>
-          </div>
-        </aside>
-
-        <footer class="status-line" id="statusLine">Listo para empezar.</footer>
       </section>
+
+      <div class="hint-modal is-hidden" id="hintModal" role="dialog" aria-modal="true" aria-labelledby="hintModalTitle">
+        <div class="hint-modal-card">
+          <button class="hint-close" id="hintCloseButton" type="button" aria-label="Cerrar pista">×</button>
+          <p class="eyebrow" id="hintModalTitle">Pista</p>
+          <p id="hintModalText"></p>
+        </div>
+      </div>
     </main>
 
     <script src="app.js?v=20260508-1"></script>

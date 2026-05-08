@@ -10,18 +10,17 @@ const dom = {
   difficultyBadge: document.querySelector("#difficultyBadge"),
   roundTitle: document.querySelector("#roundTitle"),
   timerCard: document.querySelector("#timerCard"),
-  timerLabel: document.querySelector("#timerLabel"),
   timer: document.querySelector("#timer"),
+  stage: document.querySelector("#stage"),
   themeChoice: document.querySelector("#themeChoice"),
+  questionCard: document.querySelector("#questionCard"),
   phaseLabel: document.querySelector("#phaseLabel"),
   questionText: document.querySelector("#questionText"),
-  hintBox: document.querySelector("#hintBox"),
   optionsGrid: document.querySelector("#optionsGrid"),
-  statusLine: document.querySelector("#statusLine"),
-  advanceButton: document.querySelector("#advanceButton"),
-  timerButton: document.querySelector("#timerButton"),
-  finishButton: document.querySelector("#finishButton"),
-  nextRoundButton: document.querySelector("#nextRoundButton"),
+  advanceZone: document.querySelector("#advanceZone"),
+  hintModal: document.querySelector("#hintModal"),
+  hintModalText: document.querySelector("#hintModalText"),
+  hintCloseButton: document.querySelector("#hintCloseButton"),
   lifelines: {
     fifty: document.querySelector("#lifelineFifty"),
     call: document.querySelector("#lifelineCall"),
@@ -48,9 +47,13 @@ const state = {
     hint: false
   },
   lifelineUsedThisRound: false,
+  hintModalOpen: false,
+  resumeTimerAfterHint: false,
   audioReady: false,
   audioContext: null,
-  tensionNodes: null
+  tensionNodes: null,
+  tensionAudio: null,
+  tensionFadeId: null
 };
 
 function getDifficulty(round, roundIndex, question = null) {
@@ -93,10 +96,8 @@ async function init() {
 
 function bindEvents() {
   dom.startButton.addEventListener("click", startPreparedGame);
-  dom.advanceButton.addEventListener("click", advance);
-  dom.timerButton.addEventListener("click", toggleTimer);
-  dom.finishButton.addEventListener("click", finishDeliberation);
-  dom.nextRoundButton.addEventListener("click", nextRound);
+  dom.advanceZone.addEventListener("click", handleAdvanceZoneClick);
+  dom.hintCloseButton.addEventListener("click", closeHintModal);
 
   Object.values(dom.lifelines).forEach((button) => {
     button.addEventListener("click", () => useLifeline(button.dataset.lifeline));
@@ -164,16 +165,16 @@ function setupRound() {
   const round = state.rounds[state.roundIndex];
   dom.themeChoice.innerHTML = "";
   dom.themeChoice.classList.add("is-hidden");
-  dom.hintBox.classList.add("is-hidden");
-  dom.hintBox.textContent = "";
+  dom.stage.classList.toggle("is-choosing-theme", round.tipo === "eleccion");
+  dom.questionCard.classList.remove("is-visible");
+  closeHintModal({ resumeTimer: false });
   dom.optionsGrid.innerHTML = "";
 
   dom.roundLevel.textContent = `Ronda ${state.roundIndex + 1} de ${state.rounds.length}`;
   dom.difficultyBadge.textContent = `Nivel ${getDifficulty(round, state.roundIndex)}`;
   dom.roundTitle.textContent = round.tipo === "eleccion" ? "Elegid temática" : round.tema;
-  dom.phaseLabel.textContent = "Preparando ronda";
-  dom.questionText.textContent =
-    round.tipo === "eleccion" ? "Selecciona una temática para esta ronda." : "Pulsa avanzar para mostrar las respuestas.";
+  dom.phaseLabel.textContent = "Pregunta";
+  dom.questionText.textContent = round.tipo === "eleccion" ? "" : round.pregunta;
 
   if (round.tipo === "eleccion") {
     renderThemeChoice(round);
@@ -181,7 +182,7 @@ function setupRound() {
   } else {
     state.currentQuestion = round;
     renderOptions(round);
-    setStatus("Pulsa avanzar para revelar las opciones una a una.");
+    setStatus("");
   }
 
   updateTimerDisplay();
@@ -205,12 +206,15 @@ function selectTheme(question) {
   state.currentQuestion = question;
   state.phase = "setup";
   dom.themeChoice.classList.add("is-hidden");
+  dom.stage.classList.remove("is-choosing-theme");
+  dom.questionCard.classList.remove("is-visible");
   dom.difficultyBadge.textContent = `Nivel ${getDifficulty(state.rounds[state.roundIndex], state.roundIndex, question)}`;
   dom.roundTitle.textContent = question.tema;
-  dom.questionText.textContent = "Pulsa avanzar para mostrar las respuestas.";
+  dom.phaseLabel.textContent = "Pregunta";
+  dom.questionText.textContent = question.pregunta;
   renderOptions(question);
   playEffect("advance");
-  setStatus(`Tema seleccionado: ${question.tema}.`);
+  setStatus("");
   updateControls();
 }
 
@@ -248,9 +252,8 @@ function advance() {
     if (state.visibleOptions < state.currentQuestion.opciones.length) {
       state.visibleOptions += 1;
       showVisibleOptions();
-      dom.phaseLabel.textContent = "Respuestas";
-      dom.questionText.textContent = "Memorizad las opciones. La pregunta aparecerá después.";
-      setStatus(`Opción ${LETTERS[state.visibleOptions - 1]} revelada.`);
+      dom.phaseLabel.textContent = "Pregunta";
+      setStatus("");
       playEffect("advance");
       updateControls();
       return;
@@ -258,10 +261,9 @@ function advance() {
 
     state.phase = "question";
     dom.phaseLabel.textContent = "Pregunta";
-    dom.questionText.textContent = state.currentQuestion.pregunta;
-    setStatus("Pregunta revelada. Inicia el tiempo cuando quieras.");
+    dom.questionCard.classList.add("is-visible");
     playEffect("question");
-    updateControls();
+    toggleTimer();
     return;
   }
 
@@ -273,6 +275,15 @@ function advance() {
   if (state.phase === "finished") {
     nextRound();
   }
+}
+
+function handleAdvanceZoneClick() {
+  if (state.phase === "timing") {
+    toggleTimer();
+    return;
+  }
+
+  advance();
 }
 
 function showVisibleOptions() {
@@ -296,13 +307,13 @@ function toggleTimer() {
 
   state.phase = "timing";
   state.timerRunning = true;
-  dom.phaseLabel.textContent = "Deliberación";
-  dom.timerLabel.textContent = "Tiempo corriendo";
+  dom.phaseLabel.textContent = "Pregunta";
   dom.timerCard.classList.add("is-running");
   state.timerId = window.setInterval(tick, 1000);
   startTension();
   playEffect("start");
   setStatus("Tiempo iniciado: 2 minutos.");
+  updateTimerDisplay();
   updateControls();
   updateLifelines();
 }
@@ -337,16 +348,16 @@ function finishDeliberation(message = "Deliberación finalizada. Revela las resp
   stopTimer();
   stopTension();
   state.phase = "reveal";
-  dom.phaseLabel.textContent = "Revelación";
-  dom.timerLabel.textContent = "Revelando";
+  dom.phaseLabel.textContent = "Pregunta";
   setStatus(message);
   playEffect("finish");
+  updateTimerDisplay();
   updateControls();
   updateLifelines();
 }
 
 function revealOption(index) {
-  if (state.phase !== "reveal" || state.revealed.has(index)) {
+  if (!canRevealOptions() || state.revealed.has(index)) {
     return;
   }
 
@@ -358,13 +369,18 @@ function revealOption(index) {
 
   if (isCorrect) {
     state.phase = "finished";
-    dom.phaseLabel.textContent = "Ronda resuelta";
+    dom.phaseLabel.textContent = "Pregunta";
     setStatus("Respuesta correcta revelada. Puedes pasar a la siguiente ronda.");
+    updateTimerDisplay();
   } else {
     setStatus(`La opción ${LETTERS[index]} no era correcta.`);
   }
 
   updateControls();
+}
+
+function canRevealOptions() {
+  return state.phase === "reveal" || (state.phase === "timing" && !state.timerRunning);
 }
 
 function nextRound() {
@@ -459,22 +475,52 @@ function useCall() {
 }
 
 function useHint() {
-  dom.hintBox.textContent = `Pista: ${state.currentQuestion.pista || "Esta pregunta no tiene pista configurada."}`;
-  dom.hintBox.classList.remove("is-hidden");
+  openHintModal(state.currentQuestion.pista || "Esta pregunta no tiene pista configurada.");
   setStatus("Comodín pista usado.");
 }
 
-function updateControls() {
-  const hasQuestion = Boolean(state.currentQuestion);
-  dom.advanceButton.disabled = !hasQuestion || !["setup", "options", "question", "finished"].includes(state.phase);
-  dom.timerButton.disabled = !hasQuestion || !["question", "timing"].includes(state.phase);
-  dom.finishButton.disabled = !["question", "timing"].includes(state.phase);
-  dom.nextRoundButton.disabled = !["finished", "complete"].includes(state.phase);
+function openHintModal(hint) {
+  state.resumeTimerAfterHint = state.phase === "timing" && state.timerRunning;
 
-  dom.timerButton.textContent = state.timerRunning ? "Pausar tiempo" : state.phase === "timing" ? "Reanudar tiempo" : "Iniciar tiempo";
+  if (state.resumeTimerAfterHint) {
+    pauseTimer("Comodín pista usado. Tiempo pausado.");
+  }
+
+  state.hintModalOpen = true;
+  dom.hintModalText.textContent = hint;
+  dom.hintModal.classList.remove("is-hidden");
+  dom.hintCloseButton.focus();
+}
+
+function closeHintModal(options = {}) {
+  const shouldResume = options.resumeTimer ?? true;
+
+  if (!state.hintModalOpen && dom.hintModal.classList.contains("is-hidden")) {
+    return;
+  }
+
+  dom.hintModal.classList.add("is-hidden");
+  state.hintModalOpen = false;
+
+  if (shouldResume && state.resumeTimerAfterHint && state.phase === "timing" && !state.timerRunning) {
+    state.resumeTimerAfterHint = false;
+    toggleTimer();
+    return;
+  }
+
+  state.resumeTimerAfterHint = false;
+}
+
+function updateControls() {
+  const canAdvance = ["setup", "options", "question", "finished"].includes(state.phase) && Boolean(state.currentQuestion);
+  const canToggleTimer = state.phase === "timing";
+  dom.advanceZone.classList.toggle("is-hidden", !canAdvance && !canToggleTimer);
+  dom.advanceZone.classList.toggle("is-timer-control", canToggleTimer);
+  dom.advanceZone.classList.toggle("is-paused", canToggleTimer && !state.timerRunning);
+  dom.advanceZone.disabled = !canAdvance && !canToggleTimer;
 
   getOptionCards().forEach((card, index) => {
-    card.disabled = state.phase !== "reveal" || state.revealed.has(index) || state.hiddenByFifty.has(index);
+    card.disabled = !canRevealOptions() || state.revealed.has(index) || state.hiddenByFifty.has(index);
   });
 }
 
@@ -493,10 +539,7 @@ function updateTimerDisplay() {
   const seconds = String(state.timeLeft % 60).padStart(2, "0");
   dom.timer.textContent = `${minutes}:${seconds}`;
   dom.timerCard.classList.toggle("is-danger", state.timeLeft <= 15);
-
-  if (!state.timerRunning && state.phase !== "reveal") {
-    dom.timerLabel.textContent = state.timeLeft === ROUND_SECONDS ? "Preparado" : "Pausado";
-  }
+  dom.timerCard.classList.toggle("is-paused", state.phase === "timing" && !state.timerRunning);
 }
 
 function stopTimer() {
@@ -511,6 +554,13 @@ function stopTimer() {
 
 function handleKeyboard(event) {
   if (event.target.matches("input, textarea, select")) {
+    return;
+  }
+
+  if (state.hintModalOpen) {
+    if (event.key === "Escape") {
+      closeHintModal();
+    }
     return;
   }
 
@@ -550,6 +600,10 @@ function ensureAudio() {
   }
 
   state.audioContext = new AudioContext();
+  state.tensionAudio = new Audio("tension-music.mp3");
+  state.tensionAudio.loop = false;
+  state.tensionAudio.preload = "auto";
+  state.tensionAudio.volume = 0;
   state.audioReady = true;
 }
 
@@ -586,32 +640,14 @@ function playEffect(type) {
 }
 
 function startTension() {
-  if (!state.audioContext || state.tensionNodes) {
+  if (!state.tensionAudio || state.tensionNodes) {
     return;
   }
 
-  const context = state.audioContext;
-  const gain = context.createGain();
-  const bass = context.createOscillator();
-  const pulse = context.createOscillator();
-  const filter = context.createBiquadFilter();
-
-  bass.type = "sawtooth";
-  bass.frequency.value = 55;
-  pulse.type = "square";
-  pulse.frequency.value = 2.2;
-  filter.type = "lowpass";
-  filter.frequency.value = 420;
-  gain.gain.value = 0.045;
-
-  bass.connect(filter);
-  pulse.connect(gain.gain);
-  filter.connect(gain);
-  gain.connect(context.destination);
-  bass.start();
-  pulse.start();
-
-  state.tensionNodes = { bass, pulse, gain, filter };
+  clearTensionFade();
+  state.tensionAudio.play().catch(() => {});
+  fadeTensionVolume(0.55, 450);
+  state.tensionNodes = { audio: state.tensionAudio };
 }
 
 function stopTension() {
@@ -619,20 +655,38 @@ function stopTension() {
     return;
   }
 
-  const { bass, pulse, gain } = state.tensionNodes;
-  const context = state.audioContext;
-  const now = context.currentTime;
-
-  gain.gain.cancelScheduledValues(now);
-  gain.gain.setValueAtTime(gain.gain.value, now);
-  gain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
-  bass.stop(now + 0.28);
-  pulse.stop(now + 0.28);
+  fadeTensionVolume(0, 250, () => {
+    state.tensionAudio.pause();
+  });
   state.tensionNodes = null;
 }
 
-function setStatus(message) {
-  dom.statusLine.textContent = message;
+function fadeTensionVolume(targetVolume, duration, onComplete = null) {
+  clearTensionFade();
+
+  const audio = state.tensionAudio;
+  const startVolume = audio.volume;
+  const startTime = performance.now();
+
+  state.tensionFadeId = window.setInterval(() => {
+    const progress = Math.min(1, (performance.now() - startTime) / duration);
+    audio.volume = startVolume + (targetVolume - startVolume) * progress;
+
+    if (progress >= 1) {
+      clearTensionFade();
+      onComplete?.();
+    }
+  }, 16);
+}
+
+function clearTensionFade() {
+  if (state.tensionFadeId) {
+    window.clearInterval(state.tensionFadeId);
+    state.tensionFadeId = null;
+  }
+}
+
+function setStatus() {
 }
 
 function getOptionCards() {
