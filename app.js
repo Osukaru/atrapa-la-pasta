@@ -151,6 +151,7 @@ function validateQuestions(data) {
 function setupRound() {
   stopTimer();
   stopTension();
+  resetTensionAudio();
 
   state.currentQuestion = null;
   state.phase = "setup";
@@ -659,6 +660,17 @@ function stopTension() {
     state.tensionAudio.pause();
   });
   state.tensionNodes = null;
+}
+
+function resetTensionAudio() {
+  if (!state.tensionAudio) {
+    return;
+  }
+
+  clearTensionFade();
+  state.tensionAudio.pause();
+  state.tensionAudio.volume = 0;
+  state.tensionAudio.currentTime = 0;
 }
 
 function fadeTensionVolume(targetVolume, duration, onComplete = null) {
