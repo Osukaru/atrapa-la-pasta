@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Números</title>
+  <desc id="desc">Ilustración de ejemplo con números brillantes.</desc>
+  <rect width="800" height="600" rx="48" fill="#120824"/>
+  <circle cx="178" cy="142" r="96" fill="#48e1ff" opacity="0.24"/>
+  <circle cx="650" cy="452" r="138" fill="#ff3da7" opacity="0.2"/>
+  <text x="400" y="258" fill="#ffd66b" font-family="Arial, sans-serif" font-size="150" font-weight="900" text-anchor="middle">7 x 8</text>
+  <text x="400" y="406" fill="#fff8df" font-family="Arial, sans-serif" font-size="120" font-weight="900" text-anchor="middle">56</text>
+</svg>

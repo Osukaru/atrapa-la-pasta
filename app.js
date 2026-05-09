@@ -140,8 +140,10 @@ function validateQuestions(data) {
     questions.forEach((question) => {
       const hasFourOptions = Array.isArray(question.opciones) && question.opciones.length === 4;
       const hasValidAnswer = Number.isInteger(question.correcta) && question.correcta >= 0 && question.correcta < 4;
+      const hasExplanation = typeof question.explicacion === "string" && question.explicacion.trim() !== "";
+      const hasExplanationPhoto = typeof question.foto_explicacion === "string" && question.foto_explicacion.trim() !== "";
 
-      if (!question.tema || !question.pregunta || !hasFourOptions || !hasValidAnswer) {
+      if (!question.tema || !question.pregunta || !hasFourOptions || !hasValidAnswer || !hasExplanation || !hasExplanationPhoto) {
         throw new Error(`La ronda ${roundIndex + 1} no tiene el formato esperado.`);
       }
     });
@@ -170,6 +172,7 @@ function setupRound() {
   dom.questionCard.classList.remove("is-visible");
   closeHintModal({ resumeTimer: false });
   dom.optionsGrid.innerHTML = "";
+  dom.optionsGrid.classList.remove("is-showing-explanation");
 
   dom.roundLevel.textContent = `Ronda ${state.roundIndex + 1} de ${state.rounds.length}`;
   dom.difficultyBadge.textContent = `Nivel ${getDifficulty(round, state.roundIndex)}`;
@@ -221,6 +224,7 @@ function selectTheme(question) {
 
 function renderOptions(question) {
   dom.optionsGrid.innerHTML = "";
+  dom.optionsGrid.classList.remove("is-showing-explanation");
   question.opciones.forEach((option, index) => {
     const card = document.createElement("button");
     card.className = "option-card";
@@ -238,6 +242,21 @@ function renderOptions(question) {
     card.addEventListener("click", () => revealOption(index));
     dom.optionsGrid.append(card);
   });
+}
+
+function renderExplanation(question) {
+  dom.optionsGrid.classList.add("is-showing-explanation");
+  dom.optionsGrid.innerHTML = `
+    <article class="explanation-card">
+      <div class="explanation-media">
+        <img src="${escapeHtml(question.foto_explicacion)}" alt="Imagen de explicación para ${escapeHtml(question.tema)}">
+      </div>
+      <div class="explanation-copy">
+        <p class="eyebrow">Explicación</p>
+        <p>${escapeHtml(question.explicacion)}</p>
+      </div>
+    </article>
+  `;
 }
 
 function advance() {
@@ -274,6 +293,16 @@ function advance() {
   }
 
   if (state.phase === "finished") {
+    state.phase = "explanation";
+    dom.phaseLabel.textContent = "Explicación";
+    renderExplanation(state.currentQuestion);
+    setStatus("Explicación mostrada. Pulsa avanzar para pasar a la siguiente ronda.");
+    playEffect("advance");
+    updateControls();
+    return;
+  }
+
+  if (state.phase === "explanation") {
     nextRound();
   }
 }
@@ -371,7 +400,7 @@ function revealOption(index) {
   if (isCorrect) {
     state.phase = "finished";
     dom.phaseLabel.textContent = "Pregunta";
-    setStatus("Respuesta correcta revelada. Puedes pasar a la siguiente ronda.");
+    setStatus("Respuesta correcta revelada. Pulsa avanzar para ver la explicación.");
     updateTimerDisplay();
   } else {
     setStatus(`La opción ${LETTERS[index]} no era correcta.`);
@@ -394,6 +423,7 @@ function nextRound() {
     dom.phaseLabel.textContent = "Enhorabuena";
     dom.questionText.textContent = "Habéis llegado al final de Atrapa la pasta.";
     dom.optionsGrid.innerHTML = "";
+    dom.optionsGrid.classList.remove("is-showing-explanation");
     dom.themeChoice.classList.add("is-hidden");
     setStatus("Fin de la partida.");
     updateControls();
@@ -513,7 +543,7 @@ function closeHintModal(options = {}) {
 }
 
 function updateControls() {
-  const canAdvance = ["setup", "options", "question", "finished"].includes(state.phase) && Boolean(state.currentQuestion);
+  const canAdvance = ["setup", "options", "question", "finished", "explanation"].includes(state.phase) && Boolean(state.currentQuestion);
   const canToggleTimer = state.phase === "timing";
   dom.advanceZone.classList.toggle("is-hidden", !canAdvance && !canToggleTimer);
   dom.advanceZone.classList.toggle("is-timer-control", canToggleTimer);
@@ -579,6 +609,11 @@ function handleKeyboard(event) {
   }
 
   if (event.key.toLowerCase() === "n") {
+    if (state.phase === "finished" || state.phase === "explanation") {
+      advance();
+      return;
+    }
+
     nextRound();
   }
 

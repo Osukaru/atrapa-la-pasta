@@ -6,7 +6,9 @@
       "pregunta": "¿Cuánto es 7 x 8?",
       "opciones": ["54", "56", "64", "48"],
       "correcta": 1,
-      "pista": "Es el resultado de sumar 7 ocho veces."
+      "pista": "Es el resultado de sumar 7 ocho veces.",
+      "explicacion": "7 multiplicado por 8 significa sumar 7 ocho veces: 7 + 7 + 7 + 7 + 7 + 7 + 7 + 7 = 56.",
+      "foto_explicacion": "images/numeros.png"
     },
     {
       "tipo": "normal",
@@ -14,7 +16,9 @@
       "pregunta": "¿Qué animal es conocido como el rey de la selva?",
       "opciones": ["Tigre", "León", "Elefante", "Gorila"],
       "correcta": 1,
-      "pista": "Tiene melena y ruge muy fuerte."
+      "pista": "Tiene melena y ruge muy fuerte.",
+      "explicacion": "El león recibe ese apodo por su fuerza, su melena imponente y su papel dominante dentro de la manada.",
+      "foto_explicacion": "images/animales.png"
     },
     {
       "tipo": "eleccion",
@@ -24,14 +28,18 @@
           "pregunta": "¿Qué material se usa para construir un portal al Nether?",
           "opciones": ["Hierro", "Obsidiana", "Diamante", "Arena"],
           "correcta": 1,
-          "pista": "Es un bloque negro muy resistente."
+          "pista": "Es un bloque negro muy resistente.",
+          "explicacion": "En Minecraft, el portal al Nether se construye con bloques de obsidiana y se activa normalmente con un mechero.",
+          "foto_explicacion": "images/pantalla.png"
         },
         {
           "tema": "Fútbol",
           "pregunta": "¿Cuánto dura un partido de fútbol profesional sin contar el descuento?",
           "opciones": ["60 minutos", "80 minutos", "90 minutos", "120 minutos"],
           "correcta": 2,
-          "pista": "Son dos partes iguales."
+          "pista": "Son dos partes iguales.",
+          "explicacion": "Un partido profesional se juega en dos tiempos de 45 minutos, así que la duración reglamentaria es de 90 minutos.",
+          "foto_explicacion": "images/numeros.png"
         }
       ]
     },
@@ -41,7 +49,9 @@
       "pregunta": "¿De qué color es principalmente el sable láser de Luke Skywalker en la primera película de Star Wars?",
       "opciones": ["Rojo", "Azul", "Verde", "Morado"],
       "correcta": 1,
-      "pista": "No es el color de los Sith."
+      "pista": "No es el color de los Sith.",
+      "explicacion": "En la primera película, Luke usa el sable azul que perteneció a Anakin Skywalker antes de construir el suyo propio más adelante.",
+      "foto_explicacion": "images/pantalla.png"
     },
     {
       "tipo": "normal",
@@ -49,7 +59,9 @@
       "pregunta": "¿Cuál es el río más largo del mundo según la clasificación más habitual?",
       "opciones": ["Nilo", "Amazonas", "Yangtsé", "Misisipi"],
       "correcta": 0,
-      "pista": "Cruza el noreste de África."
+      "pista": "Cruza el noreste de África.",
+      "explicacion": "La clasificación más habitual considera al Nilo el río más largo, con un recorrido que atraviesa el noreste de África.",
+      "foto_explicacion": "images/mundo.png"
     },
     {
       "tipo": "normal",
@@ -57,7 +69,9 @@
       "pregunta": "¿Cómo se llama el fontanero hermano de Luigi?",
       "opciones": ["Wario", "Mario", "Yoshi", "Toad"],
       "correcta": 1,
-      "pista": "Es el protagonista más famoso de Nintendo."
+      "pista": "Es el protagonista más famoso de Nintendo.",
+      "explicacion": "Mario es el hermano de Luigi y el personaje principal de muchas aventuras de Nintendo desde los años ochenta.",
+      "foto_explicacion": "images/pantalla.png"
     },
     {
       "tipo": "normal",
@@ -65,7 +79,9 @@
       "pregunta": "¿Qué planeta del sistema solar es conocido como el planeta rojo?",
       "opciones": ["Venus", "Júpiter", "Marte", "Mercurio"],
       "correcta": 2,
-      "pista": "Su nombre coincide con el dios romano de la guerra."
+      "pista": "Su nombre coincide con el dios romano de la guerra.",
+      "explicacion": "Marte se ve rojizo por el óxido de hierro presente en su superficie, por eso se le llama el planeta rojo.",
+      "foto_explicacion": "images/mundo.png"
     },
     {
       "tipo": "eleccion",
@@ -75,14 +91,18 @@
           "pregunta": "¿Cuál de estos dinosaurios tenía tres cuernos en la cabeza?",
           "opciones": ["Velociraptor", "Triceratops", "Diplodocus", "Stegosaurus"],
           "correcta": 1,
-          "pista": "Su nombre empieza por tri."
+          "pista": "Su nombre empieza por tri.",
+          "explicacion": "El Triceratops tenía dos cuernos largos sobre los ojos y otro más corto sobre el hocico.",
+          "foto_explicacion": "images/animales.png"
         },
         {
           "tema": "Superhéroes",
           "pregunta": "¿Cuál es el nombre real de Spider-Man?",
           "opciones": ["Bruce Wayne", "Peter Parker", "Clark Kent", "Tony Stark"],
           "correcta": 1,
-          "pista": "Trabaja como fotógrafo en muchas versiones."
+          "pista": "Trabaja como fotógrafo en muchas versiones.",
+          "explicacion": "Spider-Man es la identidad superheroica de Peter Parker, un joven de Nueva York mordido por una araña radiactiva.",
+          "foto_explicacion": "images/pantalla.png"
         }
       ]
     },
@@ -92,7 +112,9 @@
       "pregunta": "¿En qué país se construyeron las pirámides de Giza?",
       "opciones": ["México", "Egipto", "Perú", "Grecia"],
       "correcta": 1,
-      "pista": "Están cerca del río Nilo."
+      "pista": "Están cerca del río Nilo.",
+      "explicacion": "Las pirámides de Giza están en Egipto, cerca de El Cairo y de la orilla occidental del río Nilo.",
+      "foto_explicacion": "images/mundo.png"
     },
     {
       "tipo": "normal",
@@ -100,7 +122,9 @@
       "pregunta": "¿Cuántas cuerdas tiene normalmente una guitarra española?",
       "opciones": ["4", "5", "6", "7"],
       "correcta": 2,
-      "pista": "Es un número par mayor que cinco."
+      "pista": "Es un número par mayor que cinco.",
+      "explicacion": "La guitarra española clásica tiene normalmente seis cuerdas afinadas de grave a aguda.",
+      "foto_explicacion": "images/numeros.png"
     },
     {
       "tipo": "normal",
@@ -108,7 +132,9 @@
       "pregunta": "¿Qué necesitan las plantas para hacer la fotosíntesis?",
       "opciones": ["Luz", "Arena", "Plástico", "Metal"],
       "correcta": 0,
-      "pista": "Viene del sol."
+      "pista": "Viene del sol.",
+      "explicacion": "Las plantas usan la luz como fuente de energía para transformar agua y dióxido de carbono en alimento.",
+      "foto_explicacion": "images/mundo.png"
     },
     {
       "tipo": "normal",
@@ -116,7 +142,9 @@
       "pregunta": "¿En qué deporte se usa una raqueta y una pelota amarilla?",
       "opciones": ["Baloncesto", "Tenis", "Natación", "Rugby"],
       "correcta": 1,
-      "pista": "Se juega en pista dividida por una red."
+      "pista": "Se juega en pista dividida por una red.",
+      "explicacion": "En el tenis se golpea una pelota amarilla con una raqueta para enviarla al otro lado de la red.",
+      "foto_explicacion": "images/animales.png"
     },
     {
       "tipo": "eleccion",
@@ -126,14 +154,18 @@
           "pregunta": "¿Qué significa la sigla Wi-Fi en el uso cotidiano?",
           "opciones": ["Conexión inalámbrica", "Cable rápido", "Pantalla táctil", "Batería externa"],
           "correcta": 0,
-          "pista": "Sirve para conectarse a internet sin cable."
+          "pista": "Sirve para conectarse a internet sin cable.",
+          "explicacion": "En el uso cotidiano, Wi-Fi se refiere a una conexión inalámbrica para acceder a una red o a internet sin cable.",
+          "foto_explicacion": "images/pantalla.png"
         },
         {
           "tema": "Comida",
           "pregunta": "¿Cuál es el ingrediente principal del guacamole?",
           "opciones": ["Tomate", "Aguacate", "Patata", "Manzana"],
           "correcta": 1,
-          "pista": "Es una fruta verde por dentro."
+          "pista": "Es una fruta verde por dentro.",
+          "explicacion": "El guacamole se prepara principalmente con aguacate machacado, al que se pueden añadir lima, sal, tomate o cebolla.",
+          "foto_explicacion": "images/animales.png"
         }
       ]
     },
@@ -143,7 +175,9 @@
       "pregunta": "¿Cómo se llama el mago protagonista de la saga creada por J. K. Rowling?",
       "opciones": ["Harry Potter", "Percy Jackson", "Frodo Bolsón", "Peter Pan"],
       "correcta": 0,
-      "pista": "Tiene una cicatriz con forma de rayo."
+      "pista": "Tiene una cicatriz con forma de rayo.",
+      "explicacion": "Harry Potter es el joven mago protagonista de la saga escrita por J. K. Rowling.",
+      "foto_explicacion": "images/pantalla.png"
     },
     {
       "tipo": "normal",
@@ -151,7 +185,9 @@
       "pregunta": "¿Cuál es el océano más grande de la Tierra?",
       "opciones": ["Atlántico", "Índico", "Pacífico", "Ártico"],
       "correcta": 2,
-      "pista": "Su nombre suena a tranquilidad."
+      "pista": "Su nombre suena a tranquilidad.",
+      "explicacion": "El océano Pacífico es el más grande del planeta y cubre una superficie mayor que todos los continentes juntos.",
+      "foto_explicacion": "images/mundo.png"
     }
   ]
 }

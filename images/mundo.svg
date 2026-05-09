@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Mundo</title>
+  <desc id="desc">Ilustración de ejemplo de un globo terráqueo.</desc>
+  <rect width="800" height="600" rx="48" fill="#120824"/>
+  <circle cx="400" cy="300" r="206" fill="#48e1ff"/>
+  <path d="M254 246c68-84 148-82 198-32 54 54 92 22 120 6 24 78-6 168-82 218-76 52-176 44-242-20 54-10 86-44 76-78-8-28-66-30-70-94z" fill="#58f28b"/>
+  <path d="M420 122c82 10 154 70 178 150-58-20-108-28-136-62-22-28-36-58-42-88z" fill="#ffd66b" opacity="0.9"/>
+  <text x="400" y="540" fill="#fff8df" font-family="Arial, sans-serif" font-size="54" font-weight="900" text-anchor="middle">MUNDO</text>
+</svg>

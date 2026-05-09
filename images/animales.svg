@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Animal de ejemplo</title>
+  <desc id="desc">Ilustración de ejemplo de un león.</desc>
+  <rect width="800" height="600" rx="48" fill="#120824"/>
+  <circle cx="400" cy="300" r="206" fill="#ffb72b"/>
+  <circle cx="400" cy="300" r="132" fill="#ffd66b"/>
+  <circle cx="352" cy="270" r="18" fill="#170917"/>
+  <circle cx="448" cy="270" r="18" fill="#170917"/>
+  <path d="M352 352c38 34 58 34 96 0" fill="none" stroke="#170917" stroke-width="20" stroke-linecap="round"/>
+  <text x="400" y="540" fill="#fff8df" font-family="Arial, sans-serif" font-size="54" font-weight="900" text-anchor="middle">LEÓN</text>
+</svg>
