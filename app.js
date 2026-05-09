@@ -3,6 +3,7 @@ const LETTERS = ["A", "B", "C", "D"];
 
 const dom = {
   startScreen: document.querySelector("#startScreen"),
+  finalScreen: document.querySelector("#finalScreen"),
   startMessage: document.querySelector("#startMessage"),
   startButton: document.querySelector("#startButton"),
   gameScreen: document.querySelector("#gameScreen"),
@@ -121,6 +122,7 @@ function startGame(data) {
   state.roundIndex = 0;
   state.lifelinesUsed = { fifty: false, call: false, hint: false };
   dom.startScreen.classList.add("is-hidden");
+  dom.finalScreen.classList.add("is-hidden");
   dom.gameScreen.classList.remove("is-hidden");
   setupRound();
 }
@@ -418,16 +420,10 @@ function nextRound() {
     stopTimer();
     stopTension();
     state.phase = "complete";
-    dom.roundLevel.textContent = "Final";
-    dom.roundTitle.textContent = "Partida terminada";
-    dom.phaseLabel.textContent = "Enhorabuena";
-    dom.questionText.textContent = "Habéis llegado al final de Atrapa la pasta.";
-    dom.optionsGrid.innerHTML = "";
-    dom.optionsGrid.classList.remove("is-showing-explanation");
-    dom.themeChoice.classList.add("is-hidden");
+    closeHintModal({ resumeTimer: false });
+    dom.gameScreen.classList.add("is-hidden");
+    dom.finalScreen.classList.remove("is-hidden");
     setStatus("Fin de la partida.");
-    updateControls();
-    updateLifelines();
     playEffect("correct");
     return;
   }

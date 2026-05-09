@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Atrapa la pasta</title>
     <link rel="icon" type="image/png" href="favicon.png?v=20260508-1">
-    <link rel="stylesheet" href="styles.css?v=20260508-1">
+    <link rel="stylesheet" href="styles.css?v=20260509-1">
   </head>
   <body>
     <main class="app-shell" id="app">
@@ -70,6 +70,17 @@
 
       </section>
 
+      <section class="final-screen is-hidden" id="finalScreen" aria-live="polite">
+        <div class="brand-card final-card">
+          <p class="eyebrow">Fin de la partida</p>
+          <h1>¡Enhorabuena!</h1>
+          <div class="start-hero final-hero">
+            <img src="fin.png?v=20260509-1" alt="Celebración final de Atrapa la pasta">
+          </div>
+          <p class="final-message">Habéis llegado al final de Atrapa la pasta. ¡Gran trabajo, equipo!</p>
+        </div>
+      </section>
+
       <div class="hint-modal is-hidden" id="hintModal" role="dialog" aria-modal="true" aria-labelledby="hintModalTitle">
         <div class="hint-modal-card">
           <button class="hint-close" id="hintCloseButton" type="button" aria-label="Cerrar pista">×</button>
@@ -79,6 +90,6 @@
       </div>
     </main>
 
-    <script src="app.js?v=20260508-1"></script>
+    <script src="app.js?v=20260509-1"></script>
   </body>
 </html>
